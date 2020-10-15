@@ -1,0 +1,53 @@
+drop table if exists Course;
+drop table if exists Teacher;
+drop table if exists Pupil;
+create table Teacher(
+	id  	INT 		 PRIMARY KEY AUTO_INCREMENT,
+	firstname  	VARCHAR(100) NOT NULL,
+	lastname   	VARCHAR(100) NOT NULL,
+	gender 			VARCHAR(20) 	 NOT NULL,
+    course			VARCHAR(50)	 NOT NULL
+);
+
+/*Pupils table*/
+create table Pupil(
+	id 		INT 		 PRIMARY KEY AUTO_INCREMENT,
+	firstname  	VARCHAR(100) NOT NULL,
+	lastname   	VARCHAR(100) NOT NULL,
+	gender 			VARCHAR(20) 	 NOT NULL,
+	grade 		VARCHAR(20) 		 NOT NULL
+);
+
+/*Teacher and pupils (n to n connection) table*/
+create table Course(
+    teacher_id   	INT     	 NOT NULL,
+    pupil_id    	INT      	 NOT NULL,
+	FOREIGN KEY (teacher_id) REFERENCES Teacher(id),
+	FOREIGN KEY (pupil_id) REFERENCES Pupil(id)	
+);
+
+
+insert into Teacher(firstname, lastname, gender, course) values ("თინა", "მახარაძე", "მდედრი", "ხელოვნება");
+insert into Teacher(firstname, lastname, gender, course) values ("გელა", "მამასახლისი", "მამრი", "ქართული");
+insert into Teacher(firstname, lastname, gender, course) values ("ინგა", "გრიგოლკია", "მდედრი", "სამოქალაქო");
+insert into Teacher(firstname, lastname, gender, course) values ("ჯიმშერ", "მაისურაძე", "მამრი", "მათემატიკა");
+insert into Pupil(firstname, lastname, gender, grade) values ("ანა", "მგელაძე", "მდედრი", "1A");
+insert into Pupil(firstname, lastname, gender, grade) values ("გიორგი", "გაფრინდაშვილი", "მამრი", "1B");
+insert into Pupil(firstname, lastname, gender, grade) values ("გიორგი", "ონიანი", "მამრი", "1A");
+insert into Pupil(firstname, lastname, gender, grade) values ("კატო", "ჭყონია", "მდედრი", "1B");
+insert into Course(teacher_id, pupil_id) values (1,2);
+insert into Course(teacher_id, pupil_id) values (1,3);
+insert into Course(teacher_id, pupil_id) values (1,4);
+insert into Course(teacher_id, pupil_id) values (1,1);
+insert into Course(teacher_id, pupil_id) values (2,2);
+insert into Course(teacher_id, pupil_id) values (3,3);
+insert into Course(teacher_id, pupil_id) values (4,1);
+
+/* Query selecting every teachers name who's studets name is 'გიორგი'*/
+select distinct t.firstname, t.lastname
+  from Teacher t 
+  join Course c
+    on t.id = c.teacher_id
+  join Pupil p
+    on c.pupil_id = p.id
+ where p.firstname = 'გიორგი';
