@@ -16,6 +16,9 @@ public class MyHashTable<E> implements Iterable<E>{
         if(count == size)
             array = growArr();
         int index = e.hashCode();
+        while(index>size){
+            growArr();
+        }
         if(array[index]!=null){
             while(array[index]!=null){
                 //check if element is already in hashtable
@@ -29,21 +32,16 @@ public class MyHashTable<E> implements Iterable<E>{
 
     public void remove(E e){
         int index = e.hashCode();
-        while(index>size){
-            growArr();
-        }
         int breaker = 0;
-        if(array[index]!=null){
-            while(array[index]!=null){
-                if(((E)array[index]).equals(e)){
-                    array[index] = null;
-                    return;
-                }
-                index = (index + 1) % size;
-                breaker++;
-                //if we iterated full array and element is not present break;
-                if(breaker == size) break;
+        while(true){
+            if(((E)array[index]).equals(e)){
+                array[index] = null;
+                return;
             }
+            index = (index + 1) % size;
+            breaker++;
+            //if we iterated full array and element is not present break;
+            if(breaker == size) break;
         }
     }
 
