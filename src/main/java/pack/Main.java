@@ -118,7 +118,7 @@ public class Main {
         }
         return 0.0;
     }
-
+//	check
     public static void main(String[] args) {
 
     }
